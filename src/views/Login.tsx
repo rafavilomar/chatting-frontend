@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Flex,
   Box,
@@ -9,8 +9,23 @@ import {
   InputLeftElement,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon, AtSignIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
+
+import GeneralContext from "../utils/context/context";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { isLogged, login } = useContext(GeneralContext);
+
+  const handleLogin = () => {
+    login!();
+    navigate("/");
+  };
+
+  useEffect(() => {
+    isLogged && navigate("/");
+  }, []);
+
   return (
     <Flex
       pos={"fixed"}
@@ -37,7 +52,12 @@ const Login = () => {
                 placeholder="username"
               />
             </InputGroup>
-            <Button rightIcon={<ArrowForwardIcon />} size="md" w="100%">
+            <Button
+              rightIcon={<ArrowForwardIcon />}
+              size="md"
+              w="100%"
+              onClick={handleLogin}
+            >
               Login
             </Button>
           </Flex>

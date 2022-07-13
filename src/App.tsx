@@ -1,14 +1,36 @@
-import React, { useEffect } from "react";
-import { Heading } from "@chakra-ui/react";
+import React, { useContext, useEffect } from "react";
 
 import socket from "./utils/socket.js";
 import Login from "./views/Login";
+import { Navigate, Route, Routes } from "react-router-dom";
+import GeneralContext from "./utils/context/context";
+
+const ProtectedRoute = ({ children }: any) => {
+  const { isLogged } = useContext(GeneralContext);
+  if (!isLogged) {
+    return <Navigate to="/login" />;
+  } else {
+    return children;
+  }
+};
 
 function App() {
   useEffect(() => {
     socket.emit("connection", "Hi from client");
   }, []);
-  return <Login/>;
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <div>Chat</div>
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  );
 }
 
 export default App;
