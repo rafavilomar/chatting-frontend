@@ -1,8 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import socket from "./utils/socket.js";
 import Login from "./views/Login";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import GeneralContext from "./utils/context/context";
+
+const ProtectedRoute = ({ children }: any) => {
+  const { isLogged } = useContext(GeneralContext);
+  if (!isLogged) {
+    return <Navigate to="/login" />;
+  } else {
+    return children;
+  }
+};
 
 function App() {
   useEffect(() => {
@@ -10,7 +20,14 @@ function App() {
   }, []);
   return (
     <Routes>
-      <Route path="/" element={<div>Chat</div>} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <div>Chat</div>
+          </ProtectedRoute>
+        }
+      />
       <Route path="/login" element={<Login />} />
     </Routes>
   );
