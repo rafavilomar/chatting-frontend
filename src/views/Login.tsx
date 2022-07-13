@@ -9,8 +9,15 @@ import {
   InputLeftElement,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon, AtSignIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/");
+  };
+
   return (
     <Flex
       pos={"fixed"}
@@ -37,7 +44,12 @@ const Login = () => {
                 placeholder="username"
               />
             </InputGroup>
-            <Button rightIcon={<ArrowForwardIcon />} size="md" w="100%">
+            <Button
+              rightIcon={<ArrowForwardIcon />}
+              size="md"
+              w="100%"
+              onClick={handleLogin}
+            >
               Login
             </Button>
           </Flex>
