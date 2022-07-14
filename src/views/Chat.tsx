@@ -1,8 +1,9 @@
-import { AddIcon, HamburgerIcon } from "@chakra-ui/icons";
-import { Flex, Heading, IconButton, Input, Text } from "@chakra-ui/react";
-import {FaPaperPlane} from "react-icons/fa"
-import moment from "moment";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import { Flex, Heading, IconButton, Input } from "@chakra-ui/react";
+import { FaPaperPlane } from "react-icons/fa";
 import React from "react";
+import MessageBox from "../component/MessageBox";
+import Brand from "../component/Brand";
 
 const messageList = [
   {
@@ -48,8 +49,9 @@ const Chat = () => {
         bgColor="white"
         padding="3"
         shadow="sm"
+        maxHeight={"16"}
       >
-        <Heading>Chatting</Heading>
+        <Brand />
         <IconButton
           aria-label="user list"
           variant="ghost"
@@ -65,23 +67,11 @@ const Chat = () => {
       >
         <Flex direction="column-reverse" gap={5}>
           {messageList.map((message) => (
-            <Flex
-              justifyContent={message.user === "me" ? "flex-end" : "flex-start"}
-            >
-              <Flex
-                maxW="80%"
-                direction="column"
-                bgColor={message.user === "me" ? "green.200" : "white"}
-                borderRadius="md"
-                padding="3"
-                gap={1}
-              >
-                <Text color="blackAlpha.700" fontWeight="medium" fontSize="md">
-                  {`${message.user} - ${moment(message.date).format("lll")}`}
-                </Text>
-                <Text fontSize="md">{message.message}</Text>
-              </Flex>
-            </Flex>
+            <MessageBox
+              message={message.message}
+              date={message.date}
+              username={message.user}
+            />
           ))}
         </Flex>
       </Flex>

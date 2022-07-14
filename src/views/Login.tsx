@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import {
   Flex,
   Box,
-  Heading,
   Input,
   Button,
   InputGroup,
@@ -12,6 +11,7 @@ import { ArrowForwardIcon, AtSignIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
 import GeneralContext from "../utils/context/context";
+import Brand from "../component/Brand";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -38,9 +38,7 @@ const Login = () => {
       alignItems="center"
     >
       <Box w={350} padding="5" borderRadius="md" shadow="sm" bgColor="white">
-        <Heading as="h1" size="lg" textAlign="center" marginBottom={5}>
-          Chatting
-        </Heading>
+        <Brand center />
         <form action="">
           <Flex direction={"column"} gap={3}>
             <InputGroup>
