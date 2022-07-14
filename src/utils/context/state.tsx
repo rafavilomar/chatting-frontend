@@ -5,7 +5,7 @@ import GeneralReducer from "./reducer";
 import GeneralContext from "./context";
 
 export const initialState: contextState = {
-  isLogged: false,
+  isLogged: true, //todo
 };
 
 const GeneralState = ({ children }: any) => {
