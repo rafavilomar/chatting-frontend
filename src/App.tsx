@@ -4,6 +4,7 @@ import socket from "./utils/socket.js";
 import Login from "./views/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import GeneralContext from "./utils/context/context";
+import Chat from "./views/Chat";
 
 const ProtectedRoute = ({ children }: any) => {
   const { isLogged } = useContext(GeneralContext);
@@ -24,7 +25,7 @@ function App() {
         path="/"
         element={
           <ProtectedRoute>
-            <div>Chat</div>
+            <Chat />
           </ProtectedRoute>
         }
       />
