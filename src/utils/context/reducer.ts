@@ -16,6 +16,12 @@ export default (state: contextState, action: actionContext) => {
         isLogged: payload,
       };
 
+    case actionType.HANDLE_ACTIVE_USER_LIST:
+      return {
+        ...state,
+        openActiveUserList: payload,
+      };
+
     default:
       return { ...state };
   }

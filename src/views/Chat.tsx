@@ -1,9 +1,22 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Flex, Heading, IconButton, Input } from "@chakra-ui/react";
+import {
+  Flex,
+  IconButton,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/react";
 import { FaPaperPlane } from "react-icons/fa";
-import React from "react";
+import React, { useContext, useState } from "react";
+
+import GeneralContext from "../utils/context/context";
 import MessageBox from "../component/MessageBox";
 import Brand from "../component/Brand";
+import ActiveUserList from "../component/ActiveUserList";
 
 const messageList = [
   {
@@ -33,6 +46,7 @@ const messageList = [
 ];
 
 const Chat = () => {
+  const { handleActiveUserList } = useContext(GeneralContext);
   return (
     <Flex
       direction="column"
@@ -43,6 +57,7 @@ const Chat = () => {
       bottom={0}
       bgColor="gray.50"
     >
+      <ActiveUserList />
       {/* BAR */}
       <Flex
         justifyContent="space-between"
@@ -56,6 +71,7 @@ const Chat = () => {
           aria-label="user list"
           variant="ghost"
           icon={<HamburgerIcon />}
+          onClick={() => handleActiveUserList!(true)}
         />
       </Flex>
       {/* MESSAGE LIST */}

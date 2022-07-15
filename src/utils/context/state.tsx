@@ -6,6 +6,7 @@ import GeneralContext from "./context";
 
 export const initialState: contextState = {
   isLogged: true, //todo
+  openActiveUserList: false,
 };
 
 const GeneralState = ({ children }: any) => {
@@ -25,12 +26,20 @@ const GeneralState = ({ children }: any) => {
     });
   };
 
+  const handleActiveUserList = (value: boolean) => {
+    dispatch({
+      payload: value,
+      type: actionType.HANDLE_ACTIVE_USER_LIST,
+    });
+  };
+
   return (
     <GeneralContext.Provider
       value={{
         ...state,
         login,
         logout,
+        handleActiveUserList
       }}
     >
       {children}

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^2.0.3",
+    "@chakra-ui/modal": "^2.1.2",
     "@chakra-ui/react": "^2.2.3",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -16,7 +17,7 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^0.27.2",
-    "framer-motion": "^4.1.17",
+    "framer-motion": "4.1.17",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
