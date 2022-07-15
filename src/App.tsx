@@ -5,6 +5,7 @@ import Login from "./views/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import GeneralContext from "./utils/context/context";
 import Chat from "./views/Chat";
+import ActiveUserList from "./component/ActiveUserList";
 
 const ProtectedRoute = ({ children }: any) => {
   const { isLogged } = useContext(GeneralContext);
