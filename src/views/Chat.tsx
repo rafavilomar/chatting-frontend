@@ -1,15 +1,5 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import {
-  Flex,
-  IconButton,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/react";
+import { Flex, IconButton, Input } from "@chakra-ui/react";
 import { FaPaperPlane } from "react-icons/fa";
 import React, { useContext, useState } from "react";
 
@@ -17,36 +7,27 @@ import GeneralContext from "../utils/context/context";
 import MessageBox from "../component/MessageBox";
 import Brand from "../component/Brand";
 import ActiveUserList from "../component/ActiveUserList";
-
-const messageList = [
-  {
-    message:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. In temporibus eos velit natus accusamus ducimus, doloremque at sed ipsum voluptatum, obcaecati cum sapiente unde aspernatur iure! Enim nisi commodi consequatur!",
-    user: "user",
-    date: new Date(),
-  },
-  {
-    message:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. In temporibus eos velit natus accusamus ducimus, doloremque at sed ipsum voluptatum, obcaecati cum sapiente unde aspernatur iure! Enim nisi commodi consequatur!",
-    user: "me",
-    date: new Date(),
-  },
-  {
-    message:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. In temporibus eos velit natus accusamus ducimus, doloremque at sed ipsum voluptatum, obcaecati cum sapiente unde aspernatur iure! Enim nisi commodi consequatur!",
-    user: "user",
-    date: new Date(),
-  },
-  {
-    message:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. In temporibus eos velit natus accusamus ducimus, doloremque at sed ipsum voluptatum, obcaecati cum sapiente unde aspernatur iure! Enim nisi commodi consequatur!",
-    user: "user",
-    date: new Date(),
-  },
-];
+import Message from "../models/Message";
 
 const Chat = () => {
-  const { handleActiveUserList } = useContext(GeneralContext);
+  const { socket, handleActiveUserList } = useContext(GeneralContext);
+  const [message, setMessage] = useState<string>("");
+  const [currentMessages, setCurrentMessage] = useState<any[]>([]);
+
+  const handleMessage = (e: any) => {
+    setMessage(e.target.value);
+  };
+
+  const sendMessage = () => {
+    socket
+      .emit("send-message", message)
+      .on("new-message", (message: Message) => {
+        currentMessages.unshift(message);
+        setCurrentMessage([...currentMessages]);
+      });
+    setMessage("");
+  };
+
   return (
     <Flex
       direction="column"
@@ -82,11 +63,11 @@ const Chat = () => {
         paddingX={"3"}
       >
         <Flex direction="column-reverse" gap={5}>
-          {messageList.map((message) => (
+          {currentMessages.map((message) => (
             <MessageBox
               message={message.message}
               date={message.date}
-              username={message.user}
+              user={message.user}
             />
           ))}
         </Flex>
@@ -94,11 +75,18 @@ const Chat = () => {
 
       {/* MESSAGE INPUT */}
       <Flex bgColor="gray.50" padding={"3"} gap={3}>
-        <Input placeholder="Message" borderRadius={"md"} variant="filled" />
+        <Input
+          placeholder="Message"
+          borderRadius={"md"}
+          variant="filled"
+          value={message}
+          onChange={(e: any) => handleMessage(e)}
+        />
         <IconButton
           variant={"solid"}
           aria-label="send message"
           icon={<FaPaperPlane />}
+          onClick={sendMessage}
         />
       </Flex>
     </Flex>

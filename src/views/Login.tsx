@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Flex,
   Box,
@@ -15,15 +15,16 @@ import Brand from "../component/Brand";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { isLogged, login } = useContext(GeneralContext);
+  const [usernameInput, setUsernameInput] = useState<string>("");
+  const { userLogged, login } = useContext(GeneralContext);
 
   const handleLogin = () => {
-    login!();
+    login!(usernameInput);
     navigate("/");
   };
 
   useEffect(() => {
-    isLogged && navigate("/");
+    userLogged && navigate("/");
   }, []);
 
   return (
@@ -48,6 +49,8 @@ const Login = () => {
                 variant="filled"
                 size="md"
                 placeholder="username"
+                value={usernameInput}
+                onChange={(e: any) => setUsernameInput(e.target.value)}
               />
             </InputGroup>
             <Button

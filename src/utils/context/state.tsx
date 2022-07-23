@@ -3,25 +3,29 @@ import React, { useReducer } from "react";
 import { actionType, contextState } from "./types";
 import GeneralReducer from "./reducer";
 import GeneralContext from "./context";
+import socket from "../socket.js";
+import User from "../../models/User";
 
 export const initialState: contextState = {
-  isLogged: true, //todo
   openActiveUserList: false,
+  socket: socket,
 };
 
 const GeneralState = ({ children }: any) => {
   const [state, dispatch] = useReducer(GeneralReducer, initialState);
 
-  const login = () => {
+  const login = (username: string) => {
+    socket.emit("login", { username });
+    const user: User = { username };
     dispatch({
-      payload: true,
+      payload: user,
       type: actionType.LOGIN,
     });
   };
 
   const logout = () => {
     dispatch({
-      payload: false,
+      payload: undefined,
       type: actionType.LOGOUT,
     });
   };

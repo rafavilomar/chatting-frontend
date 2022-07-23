@@ -7,21 +7,25 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { Divider, Flex } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import User from "../models/User";
 import GeneralContext from "../utils/context/context";
 import UserElement from "./UserElement";
 
-const userList = [
-  { username: "user1" },
-  { username: "user2" },
-  { username: "user3" },
-  { username: "user4" },
-];
-
 const ActiveUserList = () => {
-  const { openActiveUserList, handleActiveUserList } = useContext(
+  const { socket, openActiveUserList, handleActiveUserList } = useContext(
     GeneralContext
   );
+
+  const [userListActive, setUserListActive] = useState<User[]>([]);
+
+  useEffect(() => {
+    socket.on("user-list-active", (users) => {
+      console.log(users);
+      setUserListActive([...users]);
+    });
+  }, []);
+
   return (
     <>
       {openActiveUserList && (
@@ -40,11 +44,11 @@ const ActiveUserList = () => {
               paddingBottom="2"
             >
               <Flex gap={2} direction="column">
-                {userList.map((user, index) => (
+                {userListActive.map((user, index) => (
                   <>
                     {index === 0 && <Divider />}
                     <UserElement username={user.username} />
-                    {index < userList.length - 1 && <Divider />}
+                    {index < userListActive.length - 1 && <Divider />}
                   </>
                 ))}
               </Flex>

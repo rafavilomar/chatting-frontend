@@ -1,19 +1,20 @@
 import { actionContext, actionType, contextState } from "./types";
 
-export default (state: contextState, action: actionContext) => {
+export default (state: contextState, action: actionContext): contextState => {
   const { payload, type } = action;
 
   switch (type) {
+
     case actionType.LOGIN:
       return {
         ...state,
-        isLogged: payload,
+        userLogged: payload,
       };
 
     case actionType.LOGOUT:
       return {
         ...state,
-        isLogged: payload,
+        userLogged: undefined,
       };
 
     case actionType.HANDLE_ACTIVE_USER_LIST:
