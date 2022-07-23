@@ -1,26 +1,34 @@
 import { Flex, Text } from "@chakra-ui/react";
+import { isEqual } from "lodash";
 import moment from "moment";
-import React from "react";
+import React, { useContext } from "react";
+import User from "../models/User";
+
+import GeneralContext from "../utils/context/context";
 
 type props = {
   message: string;
-  username: string;
+  user: User;
   date: Date;
 };
 
-const MessageBox = ({ date, message, username }: props) => {
+const MessageBox = ({ date, message, user }: props) => {
+  const { userLogged } = useContext(GeneralContext);
+
   return (
-    <Flex justifyContent={username === "me" ? "flex-end" : "flex-start"}>
+    <Flex
+      justifyContent={isEqual(user, userLogged) ? "flex-end" : "flex-start"}
+    >
       <Flex
         maxW="80%"
         direction="column"
-        bgColor={username === "me" ? "green.200" : "white"}
+        bgColor={isEqual(user, userLogged) ? "green.200" : "white"}
         borderRadius="md"
         padding="3"
         gap={1}
       >
         <Text color="blackAlpha.700" fontWeight="medium" fontSize="md">
-          {`${username} - ${moment(date).format("lll")}`}
+          {`${user.username} - ${moment(date).format("lll")}`}
         </Text>
         <Text fontSize="md">{message}</Text>
       </Flex>

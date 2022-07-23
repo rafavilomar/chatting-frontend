@@ -1,15 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
-import socket from "./utils/socket.js";
 import Login from "./views/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import GeneralContext from "./utils/context/context";
 import Chat from "./views/Chat";
-import ActiveUserList from "./component/ActiveUserList";
 
 const ProtectedRoute = ({ children }: any) => {
-  const { isLogged } = useContext(GeneralContext);
-  if (!isLogged) {
+  const { userLogged } = useContext(GeneralContext);
+  if (!userLogged) {
     return <Navigate to="/login" />;
   } else {
     return children;
@@ -17,9 +15,10 @@ const ProtectedRoute = ({ children }: any) => {
 };
 
 function App() {
-  useEffect(() => {
-    socket.emit("connection", "Hi from client");
-  }, []);
+  const { socket } = useContext(GeneralContext);
+
+  socket.emit("connection", "Socket connection");
+
   return (
     <Routes>
       <Route
