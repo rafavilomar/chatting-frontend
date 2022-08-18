@@ -16,7 +16,7 @@ export type contextState = {
   userLogged?: User;
   openActiveUserList: boolean;
   socket: Socket;
-  login?: (username: string) => void;
+  login?: (user: User) => boolean;
   logout?: () => void;
   handleActiveUserList?: (value: boolean) => void;
 };

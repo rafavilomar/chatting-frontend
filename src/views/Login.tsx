@@ -1,26 +1,46 @@
-import React, { useContext, useEffect, useState } from "react";
 import {
-  Flex,
+  ArrowForwardIcon,
+  AtSignIcon,
+  LockIcon,
+  ViewIcon,
+  ViewOffIcon
+} from "@chakra-ui/icons";
+import {
   Box,
-  Input,
   Button,
+  Flex,
+  IconButton,
+  Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement
 } from "@chakra-ui/react";
-import { ArrowForwardIcon, AtSignIcon } from "@chakra-ui/icons";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import GeneralContext from "../utils/context/context";
 import Brand from "../component/Brand";
+import GeneralContext from "../utils/context/context";
 
 const Login = () => {
-  const navigate = useNavigate();
   const [usernameInput, setUsernameInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [show, setShow] = React.useState(false);
+
   const { userLogged, login } = useContext(GeneralContext);
+  const navigate = useNavigate();
+
+  const handleClick = () => setShow(!show);
 
   const handleLogin = () => {
-    login!(usernameInput);
-    navigate("/");
+    const loginError = login!({
+      username: usernameInput,
+      password: passwordInput,
+    });
+    if (!loginError) {
+      navigate("/");
+    } else {
+      alert("Login failed");
+    }
   };
 
   useEffect(() => {
@@ -52,6 +72,25 @@ const Login = () => {
                 value={usernameInput}
                 onChange={(e: any) => setUsernameInput(e.target.value)}
               />
+            </InputGroup>
+            <InputGroup size="md">
+              <InputLeftElement children={<LockIcon />} />
+              <Input
+                id="password"
+                variant="filled"
+                size="md"
+                type={show ? "text" : "password"}
+                placeholder="password"
+                value={passwordInput}
+                onChange={(e: any) => setPasswordInput(e.target.value)}
+              />
+              <InputRightElement>
+                <IconButton
+                  aria-label={show ? "Hide" : "Show"}
+                  icon={show ? <ViewIcon /> : <ViewOffIcon />}
+                  onClick={handleClick}
+                />
+              </InputRightElement>
             </InputGroup>
             <Button
               rightIcon={<ArrowForwardIcon />}
