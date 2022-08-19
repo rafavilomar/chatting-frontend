@@ -1,6 +1,6 @@
 interface User {
   username: string;
-  password: string;
+  password?: string;
 }
 
 export default User;

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import GeneralContext from "./utils/context/context";
@@ -16,9 +16,15 @@ const ProtectedRoute = ({ children }: any) => {
 };
 
 function App() {
-  const { socket } = useContext(GeneralContext);
+  const { socket, logout } = useContext(GeneralContext);
 
   socket.emit("connection", "Socket connection");
+
+  useEffect(() => {
+    return () => {
+      logout!();
+    };
+  }, []);
 
   return (
     <Routes>

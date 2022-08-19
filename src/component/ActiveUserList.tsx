@@ -4,7 +4,7 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalOverlay,
+  ModalOverlay
 } from "@chakra-ui/modal";
 import { Divider, Flex } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
@@ -21,7 +21,6 @@ const ActiveUserList = () => {
 
   useEffect(() => {
     socket.on("user-list-active", (users) => {
-      console.log(users);
       setUserListActive([...users]);
     });
   }, []);

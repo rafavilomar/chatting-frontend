@@ -1,13 +1,13 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Flex, IconButton, Input } from "@chakra-ui/react";
-import { FaPaperPlane } from "react-icons/fa";
 import React, { useContext, useState } from "react";
+import { FaPaperPlane } from "react-icons/fa";
 
-import GeneralContext from "../utils/context/context";
-import MessageBox from "../component/MessageBox";
-import Brand from "../component/Brand";
 import ActiveUserList from "../component/ActiveUserList";
+import Brand from "../component/Brand";
+import MessageBox from "../component/MessageBox";
 import Message from "../models/Message";
+import GeneralContext from "../utils/context/context";
 
 const Chat = () => {
   const { socket, handleActiveUserList } = useContext(GeneralContext);

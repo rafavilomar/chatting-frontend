@@ -30,6 +30,7 @@ const GeneralState = ({ children }: any) => {
   };
 
   const logout = () => {
+    socket.emit("logout");
     dispatch({
       payload: undefined,
       type: actionType.LOGOUT,
