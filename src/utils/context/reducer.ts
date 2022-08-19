@@ -5,6 +5,12 @@ export default (state: contextState, action: actionContext): contextState => {
 
   switch (type) {
 
+    case actionType.SIGNUP:
+      return {
+        ...state,
+        userLogged: payload,
+      };
+
     case actionType.LOGIN:
       return {
         ...state,
@@ -22,6 +28,7 @@ export default (state: contextState, action: actionContext): contextState => {
         ...state,
         openActiveUserList: payload,
       };
+
 
     default:
       return { ...state };

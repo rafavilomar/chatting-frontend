@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import React, { useReducer } from "react";
 
 import User from "../../models/User";
 import socket from "../socket.js";
@@ -14,20 +14,19 @@ export const initialState: contextState = {
 const GeneralState = ({ children }: any) => {
   const [state, dispatch] = useReducer(GeneralReducer, initialState);
 
-  const login = (user: User) => {
-    let failed = false;
-    socket.emit("login", user);
-    // const user: User = { username };
-    socket.on("error-login", (error: boolean) => {
-      if (!error) {
-        dispatch({
-          payload: user,
-          type: actionType.LOGIN,
-        });
-      }
-      failed = error;
+  const signup = (user: User) => {
+    socket.emit("join", user);
+    dispatch({
+      type: actionType.SIGNUP,
+      payload: user,
     });
-    return failed;
+  };
+
+  const login = (user: User) => {
+    dispatch({
+      payload: user,
+      type: actionType.LOGIN,
+    });
   };
 
   const logout = () => {
@@ -48,9 +47,10 @@ const GeneralState = ({ children }: any) => {
     <GeneralContext.Provider
       value={{
         ...state,
+        signup,
         login,
         logout,
-        handleActiveUserList
+        handleActiveUserList,
       }}
     >
       {children}

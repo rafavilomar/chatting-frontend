@@ -7,16 +7,18 @@ export type actionContext = {
 };
 
 export enum actionType {
+  SIGNUP,
   LOGIN,
   LOGOUT,
-  HANDLE_ACTIVE_USER_LIST,
+  HANDLE_ACTIVE_USER_LIST
 }
 
 export type contextState = {
   userLogged?: User;
   openActiveUserList: boolean;
   socket: Socket;
-  login?: (user: User) => boolean;
+  signup?: (user: User) => void;
+  login?: (user: User) => void;
   logout?: () => void;
   handleActiveUserList?: (value: boolean) => void;
 };
