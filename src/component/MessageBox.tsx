@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { isEqual } from "lodash";
 import moment from "moment";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import User from "../models/User";
 
 import GeneralContext from "../utils/context/context";
@@ -28,7 +28,7 @@ const MessageBox = ({ date, message, user }: props) => {
         gap={1}
       >
         <Text color="blackAlpha.700" fontWeight="medium" fontSize="md">
-          {`${user.username} - ${moment(date).format("lll")}`}
+          {`${user.username} - ${moment().format('LT')}`}
         </Text>
         <Text fontSize="md">{message}</Text>
       </Flex>
