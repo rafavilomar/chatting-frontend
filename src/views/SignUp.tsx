@@ -18,34 +18,29 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
-
 import Brand from "../component/Brand";
 import GeneralContext from "../utils/context/context";
-import socket from "../utils/socket";
 
-const Login = () => {
+const SignUp = () => {
   const [usernameInput, setUsernameInput] = useState<string>("");
   const [passwordInput, setPasswordInput] = useState<string>("");
+  const [passwordInputRepeat, setPasswordInputRepeat] = useState<string>("");
   const [show, setShow] = React.useState(false);
+  const [showRepeat, setShowRepeat] = React.useState(false);
+  const [passwordError, setPasswordError] = React.useState(false);
 
-  const { userLogged, login } = useContext(GeneralContext);
+  const { userLogged, login, signup } = useContext(GeneralContext);
   const navigate = useNavigate();
 
   const handleClick = () => setShow(!show);
+  const handleClickRepeat = () => setShowRepeat(!showRepeat);
 
-  const handleLogin = () => {
-    socket.emit("login", { username: usernameInput, password: passwordInput });
-    socket.on("error-login", (error: boolean) => {
-      if (!error) {
-        login!({
-          username: usernameInput,
-          password: passwordInput,
-        });
-        navigate("/");
-      } else {
-        alert("Login failed");
-      }
+  const handleSignup = () => {
+    signup!({
+      username: usernameInput,
+      password: passwordInput,
     });
+    navigate("/");
   };
 
   useEffect(() => {
@@ -97,16 +92,50 @@ const Login = () => {
                 />
               </InputRightElement>
             </InputGroup>
+            <InputGroup size="md">
+              <InputLeftElement children={<LockIcon />} />
+              <Input
+                id="passwordRepeat"
+                variant="filled"
+                size="md"
+                type={showRepeat ? "text" : "password"}
+                placeholder="repeat password"
+                isInvalid={passwordError}
+                value={passwordInputRepeat}
+                onChange={(e: any) => {
+                  setPasswordInputRepeat(e.target.value);
+                  if (e.target.value !== passwordInput) {
+                    setPasswordError(true);
+                  } else {
+                    setPasswordError(false);
+                  }
+                }}
+              />
+              <InputRightElement>
+                <IconButton
+                  aria-label={showRepeat ? "Hide" : "Show"}
+                  icon={showRepeat ? <ViewIcon /> : <ViewOffIcon />}
+                  onClick={handleClickRepeat}
+                />
+              </InputRightElement>
+            </InputGroup>
             <Button
               rightIcon={<ArrowForwardIcon />}
               size="md"
               w="100%"
-              onClick={handleLogin}
+              disabled={
+                passwordError ||
+                !usernameInput ||
+                !passwordInput ||
+                !passwordInputRepeat ||
+                passwordInput.length < 8
+              }
+              onClick={handleSignup}
             >
-              Login
+              Sign Up
             </Button>
-            <Link as={ReactRouterLink} to="/signup" textAlign="center">
-              Create a new account
+            <Link as={ReactRouterLink} to="/login" textAlign="center">
+              Login
             </Link>
           </Flex>
         </form>
@@ -115,4 +144,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
