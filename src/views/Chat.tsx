@@ -67,7 +67,7 @@ const Chat = () => {
             <MessageBox
               message={message.message}
               date={message.date}
-              user={message.user}
+              username={message.username}
             />
           ))}
         </Flex>

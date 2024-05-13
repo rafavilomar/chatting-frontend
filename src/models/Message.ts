@@ -2,7 +2,7 @@ import User from "./User";
 
 interface Message {
   message: string;
-  user: User;
+  username: string;
   date: Date;
 }
 
